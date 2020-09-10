@@ -13,7 +13,7 @@ class HomeViewController: BaseViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableview: UITableView!
     
-    private var viewModel = AlbumViewModel()
+    private var viewModel: AlbumViewModel!
     
     // MARK: - System events
     override func viewDidLoad() {
@@ -47,6 +47,7 @@ class HomeViewController: BaseViewController {
     }
     
     private func getAlbums() {
+        viewModel = AlbumViewModel(albums: [], filteredAlbums: [])
         viewModel.delegate = self
         viewModel.getAlbums()
     }

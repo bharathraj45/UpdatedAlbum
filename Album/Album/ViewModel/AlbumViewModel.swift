@@ -17,9 +17,15 @@ class AlbumViewModel {
     
     weak var delegate: AlbumDelegate?
     
-    private var albums: [Album]?
-    private var filteredAlbums: [Album]?
-    private var isSearch: Bool = false
+    private var albums: [Album]
+    private var filteredAlbums: [Album]
+    private var isSearch: Bool
+    
+    init(albums: [Album], filteredAlbums: [Album], isSearch: Bool = false) {
+        self.albums = albums
+        self.filteredAlbums = filteredAlbums
+        self.isSearch = isSearch
+    }
     
     func getAlbums() {
         ServicesManager.loadAlbums { [weak self] (result) in
@@ -37,21 +43,21 @@ class AlbumViewModel {
     }
     
     func getRowCount() -> Int {
-        return isSearch ? filteredAlbums?.count ?? 0 : albums?.count ?? 0
+        return isSearch ? filteredAlbums.count : albums.count
     }
     
     func selectedAlbumId(index: Int) -> Int? {
-        return isSearch ? filteredAlbums?[safe: index]?.id : albums?[safe: index]?.id
+        return isSearch ? filteredAlbums[safe: index]?.id : albums[safe: index]?.id
     }
     
     func getCellModel(index: Int) -> AlbumCellViewModel? {
         var albumCellViewModel: AlbumCellViewModel?
         if isSearch {
-            guard let albums = filteredAlbums, let filteredAlbum = albums[safe: index] else { return nil }
+            guard let filteredAlbum = filteredAlbums[safe: index] else { return nil }
             albumCellViewModel = AlbumCellViewModel(title: filteredAlbum.title)
         }
         else {
-            guard let albums = albums, let album = albums[safe: index] else { return nil }
+            guard let album = albums[safe: index] else { return nil }
             albumCellViewModel = AlbumCellViewModel(title: album.title)
         }
         return albumCellViewModel
@@ -61,7 +67,7 @@ class AlbumViewModel {
         if let searchText = searchText,
             !searchText.isEmpty {
             isSearch = true
-            let updatedAlbums = albums?.filter({ ($0.title.lowercased().contains(searchText.lowercased())) })
+            let updatedAlbums = albums.filter({ ($0.title.lowercased().contains(searchText.lowercased())) })
             filteredAlbums = updatedAlbums
         } else {
             isSearch = false

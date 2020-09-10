@@ -17,7 +17,11 @@ class PictureViewModel {
     
     weak var delegate: PictureViewDelegate?
     
-    private var userAlbums: [UserAlbum]?
+    private var userAlbums: [UserAlbum]
+    
+    init(userAlbums: [UserAlbum]) {
+        self.userAlbums = userAlbums
+    }
     
     func getPictures(albumId: Int) {
         ServicesManager.loadPicturesByAlbumId(albumId: albumId) { [weak self] (result) in
@@ -35,11 +39,11 @@ class PictureViewModel {
     }
 
     func getRowCount() -> Int {
-        return userAlbums?.count ?? 0
+        return userAlbums.count
     }
     
     func getCellModel(index: Int) -> PictureCellViewModel? {
-        guard let userAlbums = userAlbums, let userAlbum = userAlbums[safe: index] else { return nil }
+        guard let userAlbum = userAlbums[safe: index] else { return nil }
         let pictureCellModel = PictureCellViewModel(imageUrl: userAlbum.thumbnailUrl)
         return pictureCellModel
     }

@@ -12,7 +12,7 @@ class PictureViewController: BaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private var viewModel = PictureViewModel()
+    private var viewModel: PictureViewModel!
     var albumId: Int = 0
     
     // MARK: - System events
@@ -31,6 +31,7 @@ class PictureViewController: BaseViewController {
     }
     
     private func getPictures() {
+        viewModel = PictureViewModel(userAlbums: [])
         viewModel.delegate = self
         viewModel.getPictures(albumId: albumId)
     }
