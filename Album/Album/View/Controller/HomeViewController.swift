@@ -14,6 +14,7 @@ class HomeViewController: BaseViewController {
     @IBOutlet weak var tableview: UITableView!
     
     private var viewModel: AlbumViewModel!
+    private var servicesManager: ServicesManager!
     
     // MARK: - System events
     override func viewDidLoad() {
@@ -47,7 +48,8 @@ class HomeViewController: BaseViewController {
     }
     
     private func getAlbums() {
-        viewModel = AlbumViewModel(albums: [], filteredAlbums: [])
+        self.servicesManager = ServicesManager()
+        viewModel = AlbumViewModel(albums: [], filteredAlbums: [], servicesManager: servicesManager)
         viewModel.delegate = self
         viewModel.getAlbums()
     }

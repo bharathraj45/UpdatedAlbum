@@ -19,12 +19,15 @@ class PictureViewModel {
     
     private var userAlbums: [UserAlbum]
     
-    init(userAlbums: [UserAlbum]) {
+    private var servicesManager: ServicesManager
+    
+    init(userAlbums: [UserAlbum], servicesManager: ServicesManager) {
         self.userAlbums = userAlbums
+        self.servicesManager = servicesManager
     }
     
     func getPictures(albumId: Int) {
-        ServicesManager.loadPicturesByAlbumId(albumId: albumId) { [weak self] (result) in
+        servicesManager.loadPicturesByAlbumId(albumId: albumId) { [weak self] (result) in
             guard let strongSelf = self else { return }
             switch result {
             case .success:

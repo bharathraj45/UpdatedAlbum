@@ -21,14 +21,17 @@ class AlbumViewModel {
     private var filteredAlbums: [Album]
     private var isSearch: Bool
     
-    init(albums: [Album], filteredAlbums: [Album], isSearch: Bool = false) {
+    private var servicesManager: ServicesManager
+    
+    init(albums: [Album], filteredAlbums: [Album], isSearch: Bool = false, servicesManager: ServicesManager) {
         self.albums = albums
         self.filteredAlbums = filteredAlbums
         self.isSearch = isSearch
+        self.servicesManager = servicesManager
     }
     
     func getAlbums() {
-        ServicesManager.loadAlbums { [weak self] (result) in
+        servicesManager.loadAlbums { [weak self] (result) in
             guard let strongSelf = self else { return }
             switch result {
             case .success:

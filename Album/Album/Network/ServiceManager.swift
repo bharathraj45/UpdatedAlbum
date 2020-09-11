@@ -33,13 +33,13 @@ class ServicesManager {
         return NetworkReachabilityManager()?.isReachable ?? true
     }
     
-    static func sendRequest<T: Decodable>(urlString: String,
+    func sendRequest<T: Decodable>(urlString: String,
                                           parameters: [String: Any]?,
                                           method: HTTPMethod,
                                           encoding: ParameterEncoding = URLEncoding.queryString,
                                           completion: @escaping (Result<T>) -> Void) -> Request? {
         
-        let request = alamoFireManager.request(urlString, method: method, parameters: parameters, encoding: encoding)
+        let request = ServicesManager.alamoFireManager.request(urlString, method: method, parameters: parameters, encoding: encoding)
         NSLog("Sending request to \(request.request?.url?.absoluteString ?? "")")
         
         request.validate()
@@ -82,7 +82,7 @@ class ServicesManager {
         return request
     }
     
-    private static func logRawResponseData(_ data: Data?) {
+    private func logRawResponseData(_ data: Data?) {
         if let data = data, let utf8Text = String(data: data, encoding: .utf8) {
             // Use print, as we don't want additional output of NSLog or debugPrint
             print("********** Response Data **********")

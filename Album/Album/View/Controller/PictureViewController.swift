@@ -11,6 +11,7 @@ import UIKit
 class PictureViewController: BaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    private var servicesManager: ServicesManager!
     
     private var viewModel: PictureViewModel!
     var albumId: Int = 0
@@ -31,7 +32,8 @@ class PictureViewController: BaseViewController {
     }
     
     private func getPictures() {
-        viewModel = PictureViewModel(userAlbums: [])
+        self.servicesManager = ServicesManager()
+        viewModel = PictureViewModel(userAlbums: [], servicesManager: servicesManager)
         viewModel.delegate = self
         viewModel.getPictures(albumId: albumId)
     }
